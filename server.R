@@ -6,19 +6,24 @@
 #
 
 library(shiny)
+library(foreach)
+library(compiler)
+
+library(ggplot2)
+
 source("martingale.R")
 
 shinyServer(function(input, output) {
-   
-  output$distPlot <- renderPlot({
-    res <- c();
-
-    for(i in 1:input$obs) {
-      game <- martingaleRun(500);
-      res[i] <- game$maxMoney;
+  output$maxMoneyPlot <- renderPlot({
+    compiledMartingale <- cmpfun(martingaleRun);
+    
+    maxMoney <- c();
+    foreach (i=1:input$obs) %dopar% {
+      game <- compiledMartingale(input$startMoney, baseBet = input$baseBet);
+      maxMoney[i] <- game$maxMoney;
     }
     
-    plot(hist(res));
+    qplot(maxMoney, geom="histogram", binwidth=max(maxMoney)/100)
   })
   
 })

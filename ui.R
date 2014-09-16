@@ -17,12 +17,16 @@ shinyUI(pageWithSidebar(
     sliderInput("obs", 
                 "Number of observations:", 
                 min = 1, 
-                max = 100, 
-                value = 50)
+                max = 1000, 
+                value = 50),
+    numericInput("startMoney", "Starting money", 500, min=1),
+    numericInput("baseBet", "Base bet", 1, min=1),
+    sliderInput("raiseBetMultiplier", "Raise bet multiplier (if lost)", value=2, min=-10, max=10, step=0.1)
   ),
   
   # Show a plot of the generated distribution
   mainPanel(
-    plotOutput("distPlot")
+    plotOutput("maxMoneyPlot"),
+    textOutput("generatedStats")
   )
 ))
