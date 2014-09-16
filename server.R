@@ -12,17 +12,26 @@ library(ggplot2)
 source("martingale.R")
 
 shinyServer(function(input, output) {
+  compiledMartingale <- cmpfun(martingaleRun);
+  
+  maxMoney <- function() {
+    game <- rep(input$startMoney ,input$obs);
+    sapply(game, function(startingMoney) {
+      compiledMartingale(
+        startingMoney,
+        baseBet = input$baseBet,
+        betIncrease = input$raiseBetMultiplier,
+        houseEdge = input$houseEdge)$maxMoney
+    })
+  }
+  
+  getMaxMoneyPlot <- function() {
+    money <- maxMoney();
+    qplot(money, geom="histogram", binwidth=max(money)/200)
+  }
+  
   output$maxMoneyPlot <- renderPlot({
-    
-    compiledMartingale <- cmpfun(martingaleRun);
-    
-    game <- rep(input$startMoney ,input$obs)
-    maxMoney <- sapply(game,
-                       function(startingMoney) {
-                         compiledMartingale(startingMoney,input$baseBet,input$raiseBetMultiplier)$maxMoney
-                         }
-                       );
-    qplot(maxMoney, geom="histogram", binwidth=max(maxMoney)/100)
+    getMaxMoneyPlot();
   })
   
 })

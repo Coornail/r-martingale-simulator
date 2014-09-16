@@ -21,7 +21,8 @@ shinyUI(pageWithSidebar(
                 value = 50),
     numericInput("startMoney", "Starting money", 500, min=1),
     numericInput("baseBet", "Base bet", 1, min=1),
-    sliderInput("raiseBetMultiplier", "Raise bet multiplier (if lost)", value=2, min=-10, max=10, step=0.1)
+    sliderInput("raiseBetMultiplier", "Raise bet multiplier (if lost)", value=2, min=-10, max=10, step=0.1),
+    sliderInput("houseEdge", "House edge", value=0.01, min=0, max=1, format="#%")
   ),
   
   # Show a plot of the generated distribution
