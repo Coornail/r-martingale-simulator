@@ -4,9 +4,8 @@ martingaleRun <- function(startMoney, baseBet = 1, betIncrease = 2.0) {
   bet <- baseBet;
   maxMoney <- startMoney;
   maxMoneyAtStep <- 0;
-  
   step <- 0;
-  
+
   while (bet < money) {
     step <- step + 1;
     mVector[step] <- money;
@@ -24,5 +23,6 @@ martingaleRun <- function(startMoney, baseBet = 1, betIncrease = 2.0) {
     }
   }
   
-  result <- list("maxMoney" = maxMoney, "maxMoneyAtStep" = maxMoneyAtStep, "steps" = step, "bets" = mVector);
+  #result <- list("maxMoney" = maxMoney, "maxMoneyAtStep" = maxMoneyAtStep, "steps" = step, "bets" = mVector);
+  result <- list("maxMoney" = maxMoney, "maxMoneyAtStep" = maxMoneyAtStep, "steps" = step);
 }
